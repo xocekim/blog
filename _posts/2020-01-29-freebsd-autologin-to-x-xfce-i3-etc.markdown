@@ -7,7 +7,7 @@ tags:
 - freebsd
 ---
 
-I don't like the idea of having a display manager light xdm or lightdm as I am the only user of my PC so here is how I autologin.  
+I don't like the idea of having a display manager like xdm or lightdm as I am the only user of my PC so here is how I autologin.  
 
 Edit /etc/gettytab and modify the X entry so it reads  
 ```text
