@@ -9,14 +9,14 @@ tags:
 - acme.sh
 ---
 
-I like to use the certificate generation tool from [acme.sh](https://acme.sh) as it is just a shell script and uses basic linux utility programs to get everything setup instead of python and all it's dependencies certbot uses. I use nginx for my webserver but prefer to edit the config files myself instead of letting the certificate tool make changes to them automatically so I use the standalonne method also.
+I like to use the certificate generation tool from [acme.sh](https://acme.sh) as it is just a shell script and uses basic linux utility programs to get everything setup instead of python and all it's dependencies certbot uses. I use nginx for my webserver but prefer to edit the config files myself instead of letting the certificate tool make changes to them automatically so I use the standalone method also.
 
 Install as root (note: don't run as  a single command, $HOME will not change to /root under normal sudo configuration for debian). This will also install a cronjob for root renewing the certs in the future for you automatically.
 ```shell
 sudo -s
+apt install socat # acme.sh requires this to launch a standalone web server
 curl https://get.acme.sh | sh
 source .bashrc # acme.sh puts its scripts on the PATH in .bashrc but this won't change until you relogin or source it like this
-apt install socat # acme.sh requires this to launch a standalone web server
 ```
 
 Issue certs with a standalone webserver. Make sure you stop apache/nginx/etc first as it requires port 80 to be available.
