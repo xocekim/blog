@@ -19,17 +19,17 @@ curl https://get.acme.sh | sh
 source .bashrc # acme.sh puts its scripts on the PATH in .bashrc but this won't change until you relogin or source it like this
 ```
 
-Issue certs with a standalone webserver. Make sure you stop apache/nginx/etc first as it requires port 80 to be available.
+Issue certs with a standalone webserver. We stop the web server before hand as we need port 80 open.
 ```shell
-acme.sh --issue --standalone -d sub1.xoce.kim -d sub2.xoce.kim -d sub3.xoce.kim
+acme.sh --issue --standalone -d sub1.xoce.kim -d sub2.xoce.kim -d sub3.xoce.kim --pre-hook "systemctl stop nginx"
 ```
 
-Install certificates for all subdomains into /etc/ssl/private and set a command to reload the webserver when the cronjobs update the certificate in the future
+Install certificates for all subdomains into /etc/ssl/private and restart the web server for changes to take effect.
 ```shell
-acme.sh --install-cert --cert-file /etc/ssl/private/xoce.kim-privkey.pem --fullchain-file /etc/ssl/private/xoce.kim-fullchain.pem -d sub1.xoce.kim -d sub2.xoce.kim -d sub3.xoce.kim --reloadcmd "systemctl reload nginx"
+acme.sh --install-cert --cert-file /etc/ssl/private/mydomains.key --fullchain-file /etc/ssl/certs/mydomains.pem -d sub1.xoce.kim -d sub2.xoce.kim -d sub3.xoce.kim --reloadcmd "systemctl restart nginx"
 ```
 
-Now to setup the webserver configs to use ssl, here is a simple nginx config with http to https redirection
+Now to setup the webserver configs to use ssl and restart it, here is a simple nginx config with http to https redirection
 ```text
 server {
 	listen 80;
@@ -40,8 +40,8 @@ server {
 server {
 	server_name sub3.xoce.kim;
 	listen 443 ssl;
-	ssl_certificate /etc/ssl/private/xoce.kim-fullchain.pem;
-	ssl_certificate_key /etc/ssl/private/xoce.kim-privkey.pem;
+	ssl_certificate /etc/ssl/certs/mydomains.key;
+	ssl_certificate_key /etc/ssl/private/mydomains.pem;
 
 	location / {
 		root /var/www/html;
