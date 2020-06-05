@@ -26,7 +26,7 @@ acme.sh --issue --standalone -d sub1.xoce.kim -d sub2.xoce.kim -d sub3.xoce.kim 
 
 Install certificates for all subdomains into /etc/ssl/private and restart the web server for changes to take effect.
 ```shell
-acme.sh --install-cert --cert-file /etc/ssl/private/mydomains.key --fullchain-file /etc/ssl/certs/mydomains.pem -d sub1.xoce.kim -d sub2.xoce.kim -d sub3.xoce.kim --reloadcmd "systemctl restart nginx"
+acme.sh --install-cert --key-file /etc/ssl/private/mydomains.key --fullchain-file /etc/ssl/certs/mydomains.pem -d sub1.xoce.kim -d sub2.xoce.kim -d sub3.xoce.kim --reloadcmd "systemctl restart nginx"
 ```
 
 Now to setup the webserver configs to use ssl and restart it, here is a simple nginx config with http to https redirection
