@@ -40,8 +40,8 @@ server {
 server {
 	server_name sub3.xoce.kim;
 	listen 443 ssl;
-	ssl_certificate /etc/ssl/certs/mydomains.key;
-	ssl_certificate_key /etc/ssl/private/mydomains.pem;
+	ssl_certificate /etc/ssl/certs/mydomains.pem;
+	ssl_certificate_key /etc/ssl/private/mydomains.key;
 
 	location / {
 		root /var/www/html;
