@@ -16,24 +16,29 @@ tags:
 - ipv6
 ---
 
-Instead of using a VPN provider I like to host my own on a cheap VPS. I like to use (Debian)[https://www.debian.org] as my distro as it's highly documented and kept minimal by default and with systemd to configure most things. I install the [liquorix](https://liquorix.net) kernel because it is a bit newer than the debian stable kernel and has support for Wireguard built in since 5.6 (debian stable is still on 4.19 at the time of writing). I will use the (NextDNS)[https://github.com/nextdns/nextdns] DNS-Over-HTTPS client to send my DNS queries securely to (Adguard)[https://adguard.com]. Finally, I am securing all this with (nftables)[https://www.netfilter.org/projects/nftables/] for the firewall as this seems to be superseding iptables now and again is built right into the kernel.
+Instead of using a VPN provider I like to host my own on a cheap VPS. I like to use [Debian](https://www.debian.org) as my distro as it's highly documented and kept minimal by default and with systemd to configure most things. I install the [liquorix](https://liquorix.net) kernel because it is a bit newer than the debian stable kernel and has support for Wireguard built in since 5.6 (debian stable is still on 4.19 at the time of writing). I will use the [NextDNS](https://github.com/nextdns/nextdns) DNS-Over-HTTPS client to send my DNS queries securely to [Adguard](https://adguard.com). Finally, I am securing all this with [nftables](https://www.netfilter.org/projects/nftables/) for the firewall as this seems to be superseding iptables now and again is built right into the kernel.
 
 First lets gain root make sure everything is up to date and install the liquorix kernel
 ```shell
 sudo -s
 apt update
 apt dist-upgrade
+apt install gnupg1 curl # if this is a fresh debian install these might not be installed yet
 echo "deb http://liquorix.net/debian buster main" | tee /etc/apt/sources.list.d/liquorix.list
 curl 'https://liquorix.net/linux-liquorix.pub' | apt-key add - && apt-get update
-apt install linux-image-liquorix-amd64 linux-image-liquorix-headers-amd64 # you don't need headers for this tutorial but your probably going to want them at some point if your building anything from source
+apt install linux-image-liquorix-amd64 linux-headers-liquorix-amd64 # you don't need headers for this tutorial but your probably going to want them at some point if your building anything from source
 systemctl reboot # reboot into new kernel
 uname -r # should now show your running the liquorix kernel
 ```
 
 Next up is networking, we are committing to systemd-networkd for this so lets move everything over.
-Lets just look at our current configuration to see what our IP addresses are and what interfaces they are on and install wireguard-tools to see some Wireguard info and be able to generate public/private keypairs later
+Lets just look at our current configuration to see what our IP addresses are and what interfaces they are on and install wireguard-tools from the backports collection to see some Wireguard info and be able to generate public/private keypairs later
 ```shell
 ip a
+echo "deb http://deb.debian.org/debian buster-backports main" | tee /etc/apt/sources.list.d/backports.list
+apt update
+apt install --no-install-suggests --no-install-recommends wireguard-tools # without the --no-install it will try to install the kernel module, but we already have this in our liquorix kernel
+apt install wireguard-tools
 ```
 Assuming your /etc/network/interfaces looks like this
 ```text
@@ -114,15 +119,34 @@ AllowedIPs=10.46.46.3/32
 AllowedIPs=fd46:46:46::3/128
 ```
 
-Hop on over to (NextDNS on Github)[https://github.com/nextdns/nextdns/releases] and grab the latest release. I am assuming you are on x86_64 architecture and the latest release at the time of writing is v1.7.0
+Enable reload the network to enable our new wg0 interface
 ```shell
-wget "https://github.com/nextdns/nextdns/releases/download/v1.7.0/nextdns_1.7.0_linux_amd64.deb"
+systemctl restart systemd-networkd
+```
+
+Hop on over to [NextDNS on Github](https://github.com/nextdns/nextdns/releases) and grab the latest release. I am assuming you are on x86_64 architecture and the latest release at the time of writing is v1.7.0
+```shell
+curl -OL "https://github.com/nextdns/nextdns/releases/download/v1.7.0/nextdns_1.7.0_linux_amd64.deb"
 dpkg -i nextdns_1.7.0_linux_amd64.deb
 ```
-Now I am going to set nextdns to only listen on our wg0 interface, setup a cache of 8MB and use (Adguard)[https://adguard.com] as my resolver then enable and start the service
+Now I am going to set nextdns to only listen on our wg0 interface, setup a cache of 8MB and use [Adguard](https://adguard.com) as my resolver then enable and start the service
 ```shell
 nextdns config set -listen 10.46.46.1:53 -cache-size 8MB -forwarder "https://dns.adguard.com/dns-query"
+nextdns restart # not sure why this was needed but systemd did not detect new settings until I did this
 systemctl enable --now nextdns.service
+```
+
+We are going to need to enable IP forwarding in the kernel, either add these lines or uncomment them in `/etc/sysctl.conf`
+```text
+...
+net.ipv4.ip_forward=1
+net.ipv6.conf.all.forwarding=1
+...
+```
+
+Apply the forwarding
+```shell
+sysctl --system
 ```
 
 Finally the firewall configuration in `/etc/nftables.conf`. This is a basic server firewall that allows TCP port 22 for using SSH and UDP ports 53 and 51820 for our DNS server and Wireguard VPN respectively. We respond to pings and we play nice with IPv6 neighbour discovery. We forward packets from wg0 (our VPN network) out through eth0 (the WAN). I have had to duplicate it for IPv6 as it would appear there is no support currently for masquerading both IPv4 and IPv6 in a single table using the inet family rather than ip/ip6. Hopefully I find a way around this or this is implemented soon as it makes the config much larger than it needs to be!
@@ -178,10 +202,29 @@ table ip6 firewall {
         }
 }
 ```
-Test the config before applying it, we don't want to lock ourselved out of our server! Then lets turn it all on.
+Test the config before applying it, we don't want to lock ourselved out of our server! Then lets turn it all on and list the loaded rules.
 ```shell
 nft -cf /etc/nftables
 systemctl enable --now nftables.service
+nft list ruleset
 ```
 
+Now your going to need to create the wireguard configs for your devices like this
+```text
+[Interface]
+PrivateKey = CLIENT1_KEY
+Address = 10.46.46.2/24, fd46:46:46::2/64
+DNS = 10.46.46.1
 
+[Peer]
+PublicKey = SERVER_PUBKEY
+AllowedIPs = 0.0.0.0/1, 128.0.0.0/1, ::/1, 8000::/1
+# AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = MY_PUBLIC_VPS_IP:51820
+```
+
+The AllowedIPs will tunnel all traffic except your local LAN over the VPN. Things like your home router at 192.168.1.1 etc should still work and you will be able to access local LAN computers. If you don't need this you could just replace it with the commented out line to route everything over VPN.
+
+Head on over to [IPv6 test](https://ipv6-test.com/) and check all is well!
+
+I would suggest if you have a domain name for the VPS that you setup reverse DNS records for both your public IPv4 and IPv6 addresses.
