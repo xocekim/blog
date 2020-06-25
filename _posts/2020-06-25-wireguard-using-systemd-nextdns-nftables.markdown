@@ -226,6 +226,6 @@ Endpoint = MY_PUBLIC_VPS_IP:51820
 
 The AllowedIPs will tunnel all traffic except your local LAN over the VPN. Things like your home router at 192.168.1.1 etc should still work and you will be able to access local LAN computers. If you don't need this you could just replace it with the commented out line to route everything over VPN.
 
-Head on over to [IPv6 test](https://ipv6-test.com/) and check all is well!
+Head on over to [IPv6 test](https://ipv6-test.com/) and check all is well! You can also test which DNS server with a [dnsleaktest](https://dnsleaktest.com/)
 
 I would suggest if you have a domain name for the VPS that you setup reverse DNS records for both your public IPv4 and IPv6 addresses.
