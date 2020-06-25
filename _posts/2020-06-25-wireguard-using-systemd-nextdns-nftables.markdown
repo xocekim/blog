@@ -157,50 +157,50 @@ Finally the firewall configuration in `/etc/nftables.conf`. This is a basic serv
 flush ruleset
 
 table ip firewall {
-        chain incoming {
-                type filter hook input priority 0; policy drop;
-                iif { lo, wg0 } accept
-                ct state established,related accept
-                ct state invalid drop
+    chain incoming {
+        type filter hook input priority 0; policy drop;
+        iif { lo, wg0 } accept
+        ct state established,related accept
+        ct state invalid drop
         ip protocol icmp icmp type { destination-unreachable, echo-reply, echo-request, source-quench, time-exceeded } accept
-                tcp dport { 22 } accept
-                udp dport { 53, 51820 } accept
-        }
+        tcp dport { 22 } accept
+        udp dport { 53, 51820 } accept
+    }
 
-        chain forward {
-                type filter hook forward priority 0; policy drop;
-				iif eth0 oif wg0 ct state { related, established } accept
-				iif wg0 oif eth0 accept
-        }
+    chain forward {
+        type filter hook forward priority 0; policy drop;
+        iif eth0 oif wg0 ct state { related, established } accept
+        iif wg0 oif eth0 accept
+    }
 
-        chain postrouting {
-                type nat hook postrouting priority 100; policy accept;
-				ip saddr 10.46.46.0/24 oif eth0 masquerade
-        }
+    chain postrouting {
+        type nat hook postrouting priority 100; policy accept;
+        ip saddr 10.46.46.0/24 oif eth0 masquerade
+    }
 
 }
 
 table ip6 firewall {
-        chain incoming {
-                type filter hook input priority 0; policy drop;
-                iif { lo, wg0 } accept
-                ct state established,related accept
-                ct state invalid drop
-				ip6 nexthdr icmpv6 icmpv6 type { destination-unreachable, echo-reply, echo-request, nd-neighbor-solicit, nd-router-advert, nd-neighbor-advert, packet-too-big, parameter-problem, time-exceeded } accept
-                tcp dport { 22 } accept
-                udp dport { 53, 51820 } accept
-        }
+    chain incoming {
+        type filter hook input priority 0; policy drop;
+        iif { lo, wg0 } accept
+        ct state established,related accept
+        ct state invalid drop
+        ip6 nexthdr icmpv6 icmpv6 type { destination-unreachable, echo-reply, echo-request, nd-neighbor-solicit, nd-router-advert, nd-neighbor-advert, packet-too-big, parameter-problem, time-exceeded } accept
+        tcp dport { 22 } accept
+        udp dport { 53, 51820 } accept
+    }
 
-        chain forward {
-                type filter hook forward priority 0; policy drop;
-				iif eth0 oif wg0 ct state { related, established } accept
-				iif wg0 oif eth0 accept
-        }
+    chain forward {
+        type filter hook forward priority 0; policy drop;
+        iif eth0 oif wg0 ct state { related, established } accept
+        iif wg0 oif eth0 accept
+    }
 
-        chain postrouting {
-                type nat hook postrouting priority 100; policy accept;
-				ip6 saddr fd46:46:46::0/64 oif eth0 masquerade
-        }
+     chain postrouting {
+        type nat hook postrouting priority 100; policy accept;
+        ip6 saddr fd46:46:46::0/64 oif eth0 masquerade
+    }
 }
 ```
 Test the config before applying it, we don't want to lock ourselved out of our server! Then lets turn it all on and list the loaded rules.
