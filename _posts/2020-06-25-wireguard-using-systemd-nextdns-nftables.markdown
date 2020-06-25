@@ -1,5 +1,6 @@
 ---
-title: My Wireguard setup with IPv4/IPv6 dual stack using a VPS, debian, liquorix kernel, nftables and DoH
+title: My Wireguard setup with IPv4/IPv6 dual stack using a VPS, debian, liquorix
+  kernel, nftables and DoH
 date: 2020-06-25 14:30:00 Z
 categories:
 - vpn
