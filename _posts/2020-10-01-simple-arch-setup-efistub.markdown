@@ -20,7 +20,7 @@ mount /dev/sda1 /mnt/boot/efi
 pacstrap /mnt base linux linux-firmware efibootmgr vim
 genfstab /mnt > /mnt/etc/fstab
 arch-chroot /mnt
-efibootmgr -c -d /dev/sda -p 1 -L arch -l "\vmlinuz-linux" "root=LABEL=rootfs initrd=\initramfs-linux.img net.ifnames=0"
+efibootmgr -c -d /dev/sda -p 1 -L arch -l "\vmlinuz-linux" -u "root=LABEL=rootfs initrd=\initramfs-linux.img net.ifnames=0"
 passwd
 cp /boot/{vmlinuz-linux,initramfs-linux.img} /boot/efi/
 exit
