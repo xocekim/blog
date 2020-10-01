@@ -81,3 +81,11 @@ if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
 fi
 ```
 
+# Running as VMWare Guest
+```shell
+pacman -S open-vm-tools gtk2 gtkmm3 xf86-video-vmware
+systemctl enable vmtoolsd
+mkinitcpio -P
+cp /boot/initramfs-linux.img /boot/efi/initramfs-linux.img
+```
+add `vmware-user` to `~/.xinitrc` if not using xfce (it has an autostart entry in /etc/xdg/autostart/ already)
