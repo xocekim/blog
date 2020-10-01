@@ -9,7 +9,7 @@ tags:
 - setup
 ---
 
-## Install
+# Install
 ```shell
 cfdisk -z /dev/sda # choose gpt, make small 256MB boot partition with type EFI System (sda1) and the rest Linux Filesystem (sda2)
 mkfs.vfat -F 32 /dev/sda1
@@ -28,7 +28,7 @@ umount -R /mnt
 reboot
 ```
 
-## Locale (language, keyboard layout)
+# Locale (language, keyboard layout)
 uncomment your desired locale in `/etc/locale.gen`
 ```shell
 locale-gen
@@ -36,7 +36,7 @@ localectl set-keymap uk
 localectl set-locale en_GB.UTF-8
 ```
 
-## Simple DHCP with systemd-networkd and systemd-resolved
+# Simple DHCP with systemd-networkd and systemd-resolved
 ```text
 # /etc/systemd/network/dhcp.network
 [Match]
@@ -57,12 +57,12 @@ systemctl start systemd-networkd systemd-resolved
 useradd -m -G wheel,audio,video,power <username>
 ```
 
-## My personal packages
+# My personal packages
 ```shell
 pacman -S man-db firefox bash-completion pulseaudio pavucontrol htop git xorg xfce4 xfce4-pulseaudio-plugin sudo ttf-ubuntu-font-family papirus-icon-theme
 ```
 
-## Autologin
+# Autologin
 ```text
 /etc/systemd/system/getty@tty1.service.d/override.conf
 [Service]
