@@ -38,7 +38,7 @@ localectl set-locale en_GB.UTF-8
 
 # Simple DHCP with systemd-networkd and systemd-resolved
 ```text
-# /etc/systemd/network/dhcp.network
+/etc/systemd/network/dhcp.network
 [Match]
 Name=eth0
 
