@@ -54,7 +54,7 @@ systemctl start systemd-networkd systemd-resolved
 
 # Create user
 ```shell
-useradd -m -G wheel,audio,video,power <username>
+useradd -m -G wheel,audio,video,power,network <username>
 ```
 
 # My personal packages
