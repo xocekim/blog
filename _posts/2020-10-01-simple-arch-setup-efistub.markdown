@@ -82,6 +82,12 @@ fi
 ```
 
 # Running as VMWare Guest
+```text
+/etc/mkinitcpio.conf
+...
+MODULES=(vsock vmw_vsock_vmci_transport vmw_balloon vmw_vmci vmwgfx)
+...
+```
 ```shell
 pacman -S open-vm-tools gtk2 gtkmm3 xf86-video-vmware
 systemctl enable vmtoolsd
