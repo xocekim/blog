@@ -59,7 +59,7 @@ useradd -m -G wheel,audio,video,power,network <username>
 
 # My personal packages
 ```shell
-pacman -S man-db firefox bash-completion pulseaudio pavucontrol htop git xorg xfce4 xfce4-pulseaudio-plugin sudo ttf-ubuntu-font-family papirus-icon-theme
+pacman -S man-db firefox bash-completion pulseaudio pavucontrol htop git xorg cinnamon sudo ttf-ubuntu-font-family papirus-icon-theme base-devel xarchiver lxterminal arc-gtk-theme qt5ct keepassxc openssh redshift smbclient discord
 ```
 
 # Autologin
@@ -71,7 +71,7 @@ ExecStart=-/usr/bin/agetty --autologin <username> --noclear %I $TERM
 ```
 ```text
 ~/.xinitrc
-exec xfce4-session
+exec cinnamon-session
 ```
 ```text
 ~/.bash_profile
