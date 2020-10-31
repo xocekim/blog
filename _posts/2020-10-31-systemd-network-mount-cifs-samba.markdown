@@ -8,6 +8,11 @@ tags:
 - network
 ---
 
+Create the folder we will mount to
+```shell
+mkdir -p /mnt/myshare
+```
+
 Create a `/etc/samba/credentials` file with this format
 ```text
 username=myusername
@@ -17,7 +22,7 @@ domain=mydomain // optional
 Set the permissions for it to read only for root.
 `chmod 400 /etc/samba/credentials`
 
-Create a `/etc/systemd/system/mnt-myshare.mount`. Setting `vers=3.1` seems to be the latest supported by CIFS. `uid=myuser,gid=myuser` sets the read write permissions - in this case only `myuser` will be able to access to share.
+Create a `/etc/systemd/system/mnt-myshare.mount`. Setting `vers=3.1` seems to be the latest supported by CIFS. `uid=myuser,gid=myuser` sets the read write permissions - in this case only `myuser` will be able to access to share. There is a requirement that the name of the share (in this case `myshare`) be the same as the folder mount point so a `mnt-abc123.mount` file would need to be mounted at `/mnt/abc123`.
 
 ```text
 [Unit]
@@ -35,7 +40,11 @@ Type=cifs
 WantedBy=multi-user.target
 ```
 
-Enable with `systemctl enable mnt-myshare.mount` and start `systemctl start mnt-myshare.mount`.
-See any errors with `journalctl -u mnt-myshare.mount`
+Enable, start and check log
+```shell
+systemctl enable mnt-myshare.mount
+systemctl start mnt-myshare.mount
+journalctl -u mnt-myshare.mount
+```
 
 There can be a requirement to install smbutils for credentials file reading to work.
