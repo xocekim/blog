@@ -27,7 +27,7 @@ vim /etc/netplan/50-cloud-init.yaml
 ```
 
 Now set systemd-resolved to use specific DNS server for all interfaces
-Here I am using a public DNS64+NAT64 resolver from [nat64.dk](https://nat64.dk) - you can find more at [](https://nat64.net/public-providers)
+Here I am using a public DNS64+NAT64 resolver from [nat64.dk](https://nat64.dk) - you can find more at [nat64.net](https://nat64.net/public-providers)
 ```shell
 vim /etc/systemd/resolved.conf
 ```
