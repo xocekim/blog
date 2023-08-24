@@ -12,7 +12,7 @@ tags:
 
 The main problem here being that scaleway uses cloud-init, which then uses netplan, which then sets up systemd-resolved incorrectly because netplan only supports a few parameters to setup the connection.
 
-# edit the netplan and tell it to not use the DHCP provided DNS servers
+Edit the netplan and tell it to not use the DHCP provided DNS servers
 ```shell
 vim /etc/netplan/50-cloud-init.yaml
 ```
@@ -25,8 +25,9 @@ vim /etc/netplan/50-cloud-init.yaml
    use-dns: false
  ...
 ```
-# now set systemd-resolved to use specific DNS server for all interfaces
-## here I am using a public DNS64+NAT64 resolver from nat64.dk - you can find more at https://nat64.net/public-providers
+
+Now set systemd-resolved to use specific DNS server for all interfaces
+Here I am using a public DNS64+NAT64 resolver from [nat64.dk](https://nat64.dk) - you can find more at [](https://nat64.net/public-providers)
 ```shell
 vim /etc/systemd/resolved.conf
 ```
