@@ -30,6 +30,10 @@ scaleway-cli.exe init -p myprofile access-key=MYACCESSKEY secret-key=MYSECRETKEY
 
 Create our function
 ```powershell
-scaleway-cli.exe function function create name=MYFUNCTIONNAME namespace-id=MYNAMESPACE runtime=python310
+scaleway-cli.exe function function create name=MYFUNCTIONNAME namespace-id=MYNAMESPACEID runtime=python310
 ```
 
+Deploy our function
+```powershell
+scaleway-cli.exe -p myprofile function deploy name=MYFUNCTIONNAME namespace-id=MYNAMESPACEID runtime=python310 zip-file=app.zip
+```
