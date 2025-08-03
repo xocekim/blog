@@ -9,15 +9,15 @@ tags:
 - ssl
 ---
 
-Download [mitmproxy](https://mitmproxy.org/) into D:\tools and add to PATH
-Download [Java JDK](https://jdk.java.net/) into D:\tools\jdk and add to PATH as JAVA_HOME\bin
-Download [Android SDK Command Line Tools](https://developer.android.com/studio) and add to PATH as %ANDROID_HOME%\cmdline-tools\latest\bin (the SDK is picky about this)
-Set ANDROID_HOME to D:\tools\android
-Set ANDROID_USER_HOME to %ANDROID_HOME% to not clutter up our Windows environment
-Set ANDROID_EMULATOR_HOME to %ANDROID_HOME%\emulator
-Set ANDROID_AVD_HOME to %ANDROID_USER_HOME%\avd
-Add ANDROID_EMULATOR_HOME to PATH
-Add ANDROID_HOME\platform-tools to PATH
+Download [mitmproxy](https://mitmproxy.org/) into D:\tools and add to PATH  
+Download [Java JDK](https://jdk.java.net/) into D:\tools\jdk and add to PATH as JAVA_HOME\bin  
+Download [Android SDK Command Line Tools](https://developer.android.com/studio) and add to PATH as %ANDROID_HOME%\cmdline-tools\latest\bin (the SDK is picky about this)  
+Set ANDROID_HOME to D:\tools\android  
+Set ANDROID_USER_HOME to %ANDROID_HOME% to not clutter up our Windows environment  
+Set ANDROID_EMULATOR_HOME to %ANDROID_HOME%\emulator  
+Set ANDROID_AVD_HOME to %ANDROID_USER_HOME%\avd  
+Add ANDROID_EMULATOR_HOME to PATH  
+Add ANDROID_HOME\platform-tools to PATH  
 
 ANDROID_SDK_ROOT
 
