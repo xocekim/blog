@@ -11,7 +11,6 @@ tags:
 
 *This post distills the most useful take‑aways from a Udemy PowerShell course. The audience is expected to be comfortable with basic programming concepts, so only the PowerShell‑specific nuances are highlighted.*
 
----  
 
 # PowerShell 7 (Core)
 
@@ -32,7 +31,6 @@ tags:
   * Set the default shell to PowerShell Core (`"terminal.integrated.shell.windows": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"`).  
   * Highlight code and press **F8** to send it to the **interactive console**; variables become immediately available.  
 
----  
 
 # Cmdlets & Tab Completion
 
@@ -48,9 +46,8 @@ tags:
 
 > **Tip:** Enable **strict mode** early (`Set-StrictMode -Version Latest`) to catch undefined variables and other subtle bugs.
 
----  
 
-#Core Language Features  
+# Core Language Features  
 
 Variables & Automatic Variables  
 
@@ -113,9 +110,8 @@ $users.ContainsKey('user1')
 $users.Remove('user2')
 ```
 
----  
 
-#Pipelines
+# Pipelines
 
 ```powershell
 $service = 'wuauserv'
@@ -133,9 +129,8 @@ Get-Help Get-Service -Full | Where-Object {
 
 *Why pipelines matter:* they let you stream data between commands without materialising intermediate collections, which reduces memory usage and yields expressive, readable one‑liners.
 
----  
 
-#Control Flow
+# Control Flow
 
 ```powershell
 # Equality test
@@ -173,9 +168,7 @@ switch ($day) {
 }
 ```
 
----  
-
-#Looping
+# Looping
 
 | Loop type | Sample syntax |
 |----------|----------------|
@@ -185,9 +178,8 @@ switch ($day) {
 | **`for` (index)** | `for ($i = 0; $i -lt $servers.Length; $i++) { Get-Service -Name $servers[$i] }` |
 | **`while`** | `while ($counter -lt 10) { Write-Host $counter; Start-Sleep -Seconds 1; $counter++ }` |
 
----  
 
-#Error Handling
+# Error Handling
 
 ```powershell
 [CmdletBinding()]
@@ -231,9 +223,7 @@ function Remove-OldFiles {
 try { Get-Item 'C:\nonexistent' -ErrorAction Stop } catch { $_.GetType().FullName }
 ```
 
----  
-
-#Modularity
+# Modularity
 
 Inspecting a function’s definition  
 
@@ -333,9 +323,8 @@ function Install-Software {
 * `-NoNewWindow` keeps the installer hidden in the current console.  
 * `Begin/Process/End` blocks give fine‑grained control over pipeline processing.  
 
----  
 
-#Practical Tips & Best Practices  
+# Practical Tips & Best Practices  
 
 - **Enable strict mode** (`Set-StrictMode -Version Latest`).  
 - **Prefer Verb‑Noun cmdlets** for discoverability.  
@@ -347,4 +336,3 @@ function Install-Software {
 - **Leverage VS Code**: highlight code → **F8** to send to the interactive terminal, and use the built‑in IntelliSense for cmdlet discovery.  
 - **Keep pipelines short and focused**; pipe objects, not raw strings, whenever possible.
 
----  
