@@ -13,7 +13,7 @@ tags:
 
 ---  
 
-## 1️⃣ PowerShell 7 (Core) – The Modern Default  
+# PowerShell 7 (Core)
 
 | Feature | PowerShell 5.x | PowerShell 7 (Core) |
 |---------|----------------|----------------------|
@@ -24,7 +24,7 @@ tags:
 
 ---  
 
-## 2️⃣ VS Code – The Ideal PowerShell IDE  
+# VS Code
 
 * Install **Visual Studio Code** → *Extensions* → **PowerShell**.  
 * The extension underlines **aliases** and suggests the full cmdlet name – a great habit‑forming reminder.  
@@ -34,7 +34,7 @@ tags:
 
 ---  
 
-## 3️⃣ Discovering Cmdlets & Using Tab Completion  
+# Cmdlets & Tab Completion
 
 | Goal | PowerShell command | What you see |
 |------|-------------------|--------------|
@@ -50,9 +50,9 @@ tags:
 
 ---  
 
-## 4️⃣ Core Language Features  
+#Core Language Features  
 
-### Variables & Automatic Variables  
+Variables & Automatic Variables  
 
 ```powershell
 Set-StrictMode -Version Latest
@@ -65,7 +65,7 @@ $LASTEXITCODE                # Exit code of the last native command
 * Read‑only automatic variables (e.g., `$PSEdition`).  
 * Constants: `Set-Variable -Name Color -Value 'Green' -Option Constant`.
 
-### Objects, Properties, and Methods  
+Objects, Properties, and Methods  
 
 ```powershell
 $color = 'red'
@@ -74,7 +74,7 @@ Get-Member -InputObject $color   # List members
 $color.Remove(1,1)           # Invoke a method
 ```
 
-### Strings  
+Strings  
 
 * Single quotes → literal (`'my $color'`).  
 * Double quotes → variable expansion (`"my $color"`).  
@@ -84,14 +84,14 @@ $color.Remove(1,1)           # Invoke a method
 'my {0}' -f $color
 ```
 
-### Numbers & Casting  
+Numbers & Casting  
 
 ```powershell
 [int]$i = 1
 [float]$i = $i               # Explicit cast when needed
 ```
 
-### ScriptBlocks  
+ScriptBlocks  
 
 ```powershell
 $sb = { Test-Path -Path 'C:\MyPath' }
@@ -99,7 +99,7 @@ $sb          # Shows the block object
 & $sb         # Executes the block
 ```
 
-### Collections  
+Collections  
 
 | Collection | Creation | Typical use |
 |------------|----------|-------------|
@@ -115,7 +115,7 @@ $users.Remove('user2')
 
 ---  
 
-## 5️⃣ Pipelines – Linking Commands  
+#Pipelines
 
 ```powershell
 $service = 'wuauserv'
@@ -123,7 +123,7 @@ Get-Service -Name $service | Stop-Service            # One‑liner
 Get-Content -Path c:\services.txt | Get-Service     # Bulk query from a file
 ```
 
-*To verify whether a cmdlet accepts pipeline input:*  
+To verify whether a cmdlet accepts pipeline input:
 
 ```powershell
 Get-Help Get-Service -Full | Where-Object {
@@ -131,18 +131,18 @@ Get-Help Get-Service -Full | Where-Object {
 }
 ```
 
-**Why pipelines matter:** they let you stream data between commands without materialising intermediate collections, which reduces memory usage and yields expressive, readable one‑liners.
+*Why pipelines matter:* they let you stream data between commands without materialising intermediate collections, which reduces memory usage and yields expressive, readable one‑liners.
 
 ---  
 
-## 6️⃣ Control Flow – Equality, `if/else`, and `switch`  
+#Control Flow
 
 ```powershell
 # Equality test
 1 -eq 1       # → $true
 ```
 
-### Simple `if/else`
+Simple `if/else`
 
 ```powershell
 if (Test-Connection -ComputerName 1.1.1.1 -Quiet) {
@@ -152,7 +152,7 @@ if (Test-Connection -ComputerName 1.1.1.1 -Quiet) {
 }
 ```
 
-### Negation and logical operators  
+Negation and logical operators  
 
 ```powershell
 if (-not (Test-Path -Path 'C:\Temp')) {
@@ -162,7 +162,7 @@ if (-not (Test-Path -Path 'C:\Temp')) {
 }
 ```
 
-### `switch` with pipeline variable `$_`
+`switch` with pipeline variable `$_`
 
 ```powershell
 $day = 'Tuesday'
@@ -175,7 +175,7 @@ switch ($day) {
 
 ---  
 
-## 7️⃣ Looping Constructs  
+#Looping
 
 | Loop type | Sample syntax |
 |----------|----------------|
@@ -187,7 +187,7 @@ switch ($day) {
 
 ---  
 
-## 8️⃣ Error Handling – `try`/`catch`, Verbose, and `$Error`  
+#Error Handling
 
 ```powershell
 [CmdletBinding()]
@@ -233,21 +233,21 @@ try { Get-Item 'C:\nonexistent' -ErrorAction Stop } catch { $_.GetType().FullNam
 
 ---  
 
-## 9️⃣ Modularity – Advanced Functions & Comment‑Based Help  
+#Modularity
 
-### Inspecting a function’s definition  
+Inspecting a function’s definition  
 
 ```powershell
 Get-Command -Name Get-Process | Select-Object -ExpandProperty Definition
 ```
 
-### Finding the module path  
+Finding the module path  
 
 ```powershell
 (Get-Module -ListAvailable -Name Microsoft.PowerShell.Management).Path
 ```
 
-### Comment‑based help template  
+Comment‑based help template  
 
 ```powershell
 function Write-Log {
@@ -287,7 +287,7 @@ function Write-Log {
 
 *`[CmdletBinding()]`* turns an advanced function into a cmdlet‑like entity, giving you common parameters (`-Verbose`, `-ErrorAction`, etc.) and enabling support for `Validate*` attributes.
 
-### A more complex function using pipeline blocks  
+A more complex function using pipeline blocks  
 
 ```powershell
 function Install-Software {
@@ -335,7 +335,7 @@ function Install-Software {
 
 ---  
 
-## 📌 Practical Tips & Best Practices  
+#Practical Tips & Best Practices  
 
 - **Enable strict mode** (`Set-StrictMode -Version Latest`).  
 - **Prefer Verb‑Noun cmdlets** for discoverability.  
