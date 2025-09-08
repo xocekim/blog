@@ -1,6 +1,6 @@
 ---
 title: Setup azure python serverless functions environment without using vscode extensions
-date: 2023-09-14
+date: 2024-09-14
 categories:
 - windows
 tags:

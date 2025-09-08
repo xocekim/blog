@@ -1,6 +1,6 @@
 ---
 title: Setup mitmproxy and android virtual device on windows to intercept SSL requests
-date: 2023-09-12
+date: 2024-09-12
 categories:
 - windows
 tags:

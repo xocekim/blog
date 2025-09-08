@@ -1,6 +1,6 @@
 ---
 title: Create serverless python function on Scaleway triggered by cron
-date: 2023-09-14
+date: 2024-09-14
 categories:
 - python
 tags:

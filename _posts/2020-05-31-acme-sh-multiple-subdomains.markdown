@@ -1,6 +1,6 @@
 ---
 title: Use acme.sh to issue and install Lets Encrypt certs for multiple subdomains
-date: 2020-05-31 14:30:00 Z
+date: 2022-05-31 14:30:00 Z
 categories:
 - ssl
 tags:

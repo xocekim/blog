@@ -1,6 +1,6 @@
 ---
 title: Simple Arch Linux setup with EFISTUB
-date: 2020-10-01 03:00:00 Z
+date: 2022-10-01 03:00:00 Z
 categories:
 - linux
 tags:

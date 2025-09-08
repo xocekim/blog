@@ -1,6 +1,6 @@
 ---
 title: Setup Debian 12 on a Scaleway IPv6 only instance to use DNS-over-TLS
-date: 2023-08-24
+date: 2024-08-24
 categories:
 - linux
 tags:

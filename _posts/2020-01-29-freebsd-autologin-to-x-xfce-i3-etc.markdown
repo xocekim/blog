@@ -1,6 +1,6 @@
 ---
 title: FreeBSD autologin to X/XFCE/i3/etc
-date: 2020-01-29 10:24:00 Z
+date: 2022-01-29 10:24:00 Z
 categories:
 - freebsd
 tags:

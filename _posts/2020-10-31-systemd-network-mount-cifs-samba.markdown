@@ -1,6 +1,6 @@
 ---
 title: Mount Windows/Samba/CIFS via SystemD unit
-date: 2020-10-31 03:00:00 Z
+date: 2022-10-31 03:00:00 Z
 categories:
 - linux
 tags:
